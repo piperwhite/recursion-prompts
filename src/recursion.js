@@ -159,11 +159,47 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if(x === 0 || y === 0){
+    return 0;
+  }
+  var negative = false;
+  if(x < 0 && y > 0 || y < 0 && x > 0){
+    negative = true;
+  }
+  var xAbs = (x > 0) ? x : -x;
+  var yAbs = (y > 0) ? y : -y;
+
+  if(yAbs === 1){
+    return negative? -xAbs : xAbs;
+  }
+  if(negative){
+    return -(xAbs + multiply(xAbs, yAbs-1));
+  }else{
+    return xAbs + multiply(xAbs, yAbs-1);
+  }
+
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  if(y === 0){
+    return NaN;
+  }
+  var negative = false;
+  if(x < 0 && y > 0 || y < 0 && x > 0){
+    negative = true;
+  }
+  x = (x > 0) ? x : -x;
+  y = (y > 0) ? y : -y;
+  if( x < y){
+    return 0;
+  }
+  if(negative){
+    return -(1 + divide(x-y, y));
+  }else{
+    return (1 + divide(x-y, y));
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -172,6 +208,18 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  if(x < 0 || y < 0){
+    return null;
+  }
+  if(x === 0){
+    return y;
+  }
+  if(y === 0){
+    return x;
+  }
+  var r = x % y;
+  return gcd(y, r);
+
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
